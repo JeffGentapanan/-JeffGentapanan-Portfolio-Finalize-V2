@@ -1,0 +1,18 @@
+[
+  {
+    "id": "awesome-todos",
+    "title": "Awesome Todo’s App",
+    "url": "https://awesometodosapp-otag.onrender.com",
+    "category": "Full-stack development",
+    "tagline": "A task management application with a clean interface, persistent storage, and a decoupled client-server architecture.",
+    "thumbnail": "/portfolio/todos-preview.png"
+  },
+  {
+    "id": "letsgo",
+    "title": "LetsGo",
+    "url": "https://www.figma.com/design/BZBrT1mz1qnNmV2bs9eoQO/Let-s-GO?node-id=243-640&t=evY3oR7YkhxSBHMz-1",
+    "category": "UI/UX design",
+    "tagline": "A travel planning design that helps people discover and organize their dream destinations.",
+    "thumbnail": "/portfolio/letsgo-preview.png"
+  }
+]

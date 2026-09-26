@@ -1,0 +1,14 @@
+[
+  {
+    "name": "JavaScript",
+    "percentage": 75
+  },
+  {
+    "name": "CSS",
+    "percentage": 24
+  },
+  {
+    "name": "HTML",
+    "percentage": 1
+  }
+]
