@@ -1,3 +1,5 @@
+ > **Online editing now uses Supabase.** See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel settings and owner sign-in. The local Node API instructions below describe the legacy backend.
+
 # Jeff Gentapanan — Portfolio V2
 
 A personal portfolio showcasing projects, skills, background, and contact information through a minimalist black-and-white interface. The website combines an interactive 3D cube, an animated plasma background, and owner-managed project and skill content.
@@ -237,4 +239,5 @@ The internal API routes listed above are relative to whichever server runs this 
 BSIT — Western Institute of Technology
 
 [GitHub profile](https://github.com/JeffGentapanan) · [Portfolio repository](https://github.com/JeffGentapanan/-JeffGentapanan-Portfolio-Finalize-V2)
+
 

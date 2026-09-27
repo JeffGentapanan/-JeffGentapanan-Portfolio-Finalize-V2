@@ -1,29 +1,44 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { api, jsonRequest } from '@/lib/api';
-const empty = { authenticated: false, configured: false, csrf: '' };
+import { supabase, requireSupabase, OWNER_ID } from '@/lib/supabase';
+
 const Context = createContext(null);
+
 export function OwnerProvider({ children }) {
-  const [session, setSession] = useState(empty);
+  const [authenticated, setAuthenticated] = useState(false);
+
   useEffect(() => {
-    let active = true;
-    api('/api/session')
-      .then((value) => {
-        if (active) setSession(value);
-      })
-      .catch(() => {});
-    return () => {
-      active = false;
-    };
+    if (!supabase) return;
+    // INITIAL_SESSION also restores an existing login after a refresh.
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthenticated(session?.user?.id === OWNER_ID);
+    });
+    return () => data.subscription.unsubscribe();
   }, []);
-  async function login(password) {
-    setSession(await api('/api/login', jsonRequest('POST', { password })));
+
+  async function login(email, password) {
+    const client = requireSupabase();
+    const { data, error } = await client.auth.signInWithPassword({ email: email.trim(), password });
+    if (error) throw error;
+    if (data.user.id !== OWNER_ID) {
+      await client.auth.signOut({ scope: 'local' });
+      throw new Error('This account does not have owner access.');
+    }
+    setAuthenticated(true);
   }
+
   async function logout() {
-    await api('/api/logout', jsonRequest('POST', {}, session.csrf));
-    setSession({ ...empty, configured: true });
+    const { error } = await requireSupabase().auth.signOut({ scope: 'local' });
+    if (error) throw error;
+    setAuthenticated(false);
   }
-  return <Context.Provider value={{ ...session, login, logout }}>{children}</Context.Provider>;
+
+  return (
+    <Context.Provider value={{ authenticated, configured: Boolean(supabase), login, logout }}>
+      {children}
+    </Context.Provider>
+  );
 }
+
 export function useOwner() {
   const owner = useContext(Context);
   if (!owner) throw new Error('OwnerProvider is required.');

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import seed from '@/data/skills.json';
-import { api, jsonRequest } from '@/lib/api';
+import { loadContent, saveContentRow, deleteContentRow } from '@/lib/content-store';
 import { OwnerAccess } from '@/components/owner/owner-access';
 import { useOwner } from '@/context/owner-context';
 import { Modal } from '@/components/ui/modal';
@@ -17,9 +17,9 @@ export function SkillsSection() {
   const owner = useOwner();
   useEffect(() => {
     let active = true;
-    api('/api/content')
+    loadContent('skills')
       .then((data) => {
-        if (active) setGroups(data.skills);
+        if (active) setGroups(data);
       })
       .catch(() => {
         if (active) setError('Live skills are unavailable. Showing the bundled skills.');
@@ -29,11 +29,38 @@ export function SkillsSection() {
     };
   }, []);
   async function commit(next) {
+    if (!owner.authenticated) {
+      setError('Owner sign-in is required.');
+      return false;
+    }
     setBusy(true);
     setError('');
     try {
-      const data = await api('/api/skills', jsonRequest('PUT', next, owner.csrf));
-      setGroups(data.skills);
+      const removed = groups.find((group) => !next.some((item) => item.id === group.id));
+      if (removed) {
+        await deleteContentRow('skills', removed.id);
+        setGroups((current) => current.filter((group) => group.id !== removed.id));
+      } else {
+        const changed = next.find((group) => {
+          const previous = groups.find((item) => item.id === group.id);
+          return (
+            !previous ||
+            previous.title !== group.title ||
+            JSON.stringify(previous.items) !== JSON.stringify(group.items)
+          );
+        });
+        if (changed) {
+          const previous = groups.find((group) => group.id === changed.id);
+          const position =
+            previous?.position ?? Math.max(-1, ...groups.map((group) => group.position ?? 0)) + 1;
+          const saved = await saveContentRow('skills', { ...changed, position }, Boolean(previous));
+          setGroups((current) =>
+            previous
+              ? current.map((group) => (group.id === saved.id ? saved : group))
+              : [...current, saved]
+          );
+        }
+      }
       return true;
     } catch (error) {
       setError(error.message);

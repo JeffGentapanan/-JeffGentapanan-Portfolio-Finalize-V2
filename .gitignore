@@ -25,3 +25,8 @@ dist-ssr
 
 .private/
 .test-tmp/
+
+.env
+.env.*
+!.env.example
+.vercel/

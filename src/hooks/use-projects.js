@@ -1,39 +1,41 @@
 import { useEffect, useState } from 'react';
 import seed from '@/data/projects.json';
 import { MAX_PROJECTS, validateProject } from '@/lib/project-store';
-import { api, jsonRequest } from '@/lib/api';
+import { loadContent, saveContentRow, deleteContentRow } from '@/lib/content-store';
 import { useOwner } from '@/context/owner-context';
+
 export function useProjects() {
-  const [projects, setProjects] = useState(seed),
-    [ready, setReady] = useState(false),
-    [error, setError] = useState('');
-  const { csrf } = useOwner();
+  const [projects, setProjects] = useState(seed);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState('');
+  const { authenticated } = useOwner();
+
   useEffect(() => {
     let active = true;
-    api('/api/content')
+    loadContent('projects')
       .then((data) => {
-        if (active) {
-          setProjects(data.projects);
-          setReady(true);
-        }
+        if (active) setProjects(data);
       })
       .catch(() => {
         if (active) setError('Live content is unavailable. Showing the bundled portfolio.');
+      })
+      .finally(() => {
+        if (active) setReady(true);
       });
     return () => {
       active = false;
     };
   }, []);
-  async function commit(next) {
-    if (!csrf) {
+
+  async function mutate(action) {
+    if (!authenticated) {
       setError('Owner sign-in is required.');
       return false;
     }
     setReady(false);
+    setError('');
     try {
-      const data = await api('/api/projects', jsonRequest('PUT', next, csrf));
-      setProjects(data.projects);
-      setError('');
+      await action();
       return true;
     } catch (error) {
       setError(error.message);
@@ -42,6 +44,7 @@ export function useProjects() {
       setReady(true);
     }
   }
+
   async function save(input, id) {
     const cleaned = Object.fromEntries(
       Object.entries(input).map(([key, value]) => [key, value.trim()])
@@ -55,17 +58,27 @@ export function useProjects() {
       setError('You can store up to ' + MAX_PROJECTS + ' projects.');
       return false;
     }
-    return commit(
-      id
-        ? projects.map((project) => (project.id === id ? { ...cleaned, id } : project))
-        : [...projects, { ...cleaned, id: crypto.randomUUID() }]
-    );
+    return mutate(async () => {
+      const existing = projects.find((project) => project.id === id);
+      const position =
+        existing?.position ?? Math.max(-1, ...projects.map((p) => p.position ?? 0)) + 1;
+      const saved = await saveContentRow(
+        'projects',
+        { ...cleaned, id: id || crypto.randomUUID(), position },
+        Boolean(id)
+      );
+      setProjects((current) =>
+        id ? current.map((project) => (project.id === id ? saved : project)) : [...current, saved]
+      );
+    });
   }
-  return {
-    projects,
-    ready,
-    error,
-    save,
-    remove: (id) => commit(projects.filter((project) => project.id !== id)),
-  };
+
+  function remove(id) {
+    return mutate(async () => {
+      await deleteContentRow('projects', id);
+      setProjects((current) => current.filter((project) => project.id !== id));
+    });
+  }
+
+  return { projects, ready, error, save, remove };
 }

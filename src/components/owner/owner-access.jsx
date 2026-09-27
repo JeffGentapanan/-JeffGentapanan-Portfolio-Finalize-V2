@@ -4,6 +4,7 @@ import { useOwner } from '@/context/owner-context';
 export function OwnerAccess({ label, onEdit }) {
   const owner = useOwner();
   const [open, setOpen] = useState(false),
+    [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
     [error, setError] = useState(''),
     [busy, setBusy] = useState(false);
@@ -50,8 +51,7 @@ export function OwnerAccess({ label, onEdit }) {
           <p className="muted">Only the owner can publish changes to projects and skills.</p>
           {!owner.configured && (
             <p className="setup-hint">
-              First time? Run <strong>SET OWNER PASSWORD.cmd</strong> in the portfolio folder to
-              choose your password.
+              Add the Supabase connection settings to your deployment before signing in.
             </p>
           )}
           <form
@@ -60,7 +60,7 @@ export function OwnerAccess({ label, onEdit }) {
               setBusy(true);
               setError('');
               try {
-                await owner.login(password);
+                await owner.login(email, password);
                 setPassword('');
                 setOpen(false);
               } catch (error) {
@@ -71,9 +71,20 @@ export function OwnerAccess({ label, onEdit }) {
             }}
           >
             <label>
-              Owner password
+              Owner email
               <input
                 autoFocus
+                name="email"
+                type="email"
+                autoComplete="username"
+                required
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </label>
+            <label>
+              Owner password
+              <input
                 name="password"
                 type="password"
                 autoComplete="current-password"
