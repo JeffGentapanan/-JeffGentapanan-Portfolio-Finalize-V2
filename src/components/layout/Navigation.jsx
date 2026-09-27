@@ -10,8 +10,13 @@ const links = [
 export function Navigation({ view, onChange }) {
   return (
     <header className="header">
-      <a className="wordmark" href="#home" onClick={() => onChange('index')}>
-        JEFF.DEV
+      <a
+        className="wordmark brand-logo"
+        aria-label="JEFF.DEV — Home"
+        href="#home"
+        onClick={() => onChange('index')}
+      >
+        <img src="/portfolio/jeff-dev-logo.png" alt="JEFF.DEV" width="64" height="64" />
       </a>
       <nav aria-label="Primary navigation">
         {links.map((link) => (
