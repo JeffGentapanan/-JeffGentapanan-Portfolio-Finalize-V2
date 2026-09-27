@@ -3,7 +3,13 @@ import { dirname, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const languages = { '.js': 'JavaScript', '.jsx': 'JavaScript', '.mjs': 'JavaScript', '.css': 'CSS', '.html': 'HTML' };
+const languages = {
+  '.js': 'JavaScript',
+  '.jsx': 'JavaScript',
+  '.mjs': 'JavaScript',
+  '.css': 'CSS',
+  '.html': 'HTML',
+};
 const totals = {};
 async function count(path) {
   const language = languages[extname(path)];
@@ -21,11 +27,17 @@ await walk(join(root, 'server'));
 await count(join(root, 'index.html'));
 await count(join(root, 'vite.config.js'));
 const sum = Object.values(totals).reduce((a, b) => a + b, 0);
-const rows = Object.entries(totals).map(([name, bytes]) => ({ name, percentage: Math.floor(bytes / sum * 100), remainder: bytes / sum * 100 % 1 }));
+const rows = Object.entries(totals).map(([name, bytes]) => ({
+  name,
+  percentage: Math.floor((bytes / sum) * 100),
+  remainder: ((bytes / sum) * 100) % 1,
+}));
 // Largest-remainder rounding keeps the displayed percentages at exactly 100%.
 let remaining = 100 - rows.reduce((n, row) => n + row.percentage, 0);
 for (const row of [...rows].sort((a, b) => b.remainder - a.remainder)) {
   if (remaining-- > 0) row.percentage++;
 }
-const data = rows.sort((a, b) => b.percentage - a.percentage).map(({ name, percentage }) => ({ name, percentage }));
+const data = rows
+  .sort((a, b) => b.percentage - a.percentage)
+  .map(({ name, percentage }) => ({ name, percentage }));
 await writeFile(join(root, 'src/data/stack.json'), JSON.stringify(data, null, 2) + '\n');

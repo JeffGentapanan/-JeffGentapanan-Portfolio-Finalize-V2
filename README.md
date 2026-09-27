@@ -68,7 +68,7 @@ Mutating requests are checked for a matching origin. Project and skill data is v
 
 ### External service
 
-[**FormSubmit**](https://formsubmit.co/) receives the Contact page’s HTML form submissions and routes messages to the configured portfolio email address. The form uses a standard HTTP `POST` to FormSubmit, not the internal owner API. Before using this project with another recipient, update the form action and contact information in `src/components/personal-sections.jsx` and complete any recipient verification requested by the service.
+[**FormSubmit**](https://formsubmit.co/) receives the Contact page’s HTML form submissions and routes messages to the configured portfolio email address. The form uses a standard HTTP `POST` to FormSubmit, not the internal owner API. Before using this project with another recipient, update the form action and contact information in `src/pages/ContactPage.jsx` and complete any recipient verification requested by the service.
 
 GitHub, LinkedIn, Facebook, Figma, and Google Drive destinations are ordinary external links. This portfolio does not call their APIs.
 
@@ -112,6 +112,12 @@ Alternatively, double-click **`SET OWNER PASSWORD.cmd`**. Choose and confirm a p
 
 Then open **Projects** or **Skills**, choose **Owner sign in**, and use the editing controls. To reset the password, run the setup command again and restart the server.
 
+## Reading and editing the code
+
+Start with `src/main.jsx`, then `src/App.jsx`. The opening screen leads to `src/components/portfolio.jsx`, which chooses a page from `src/pages/`. Shared layout components are in `src/components/layout/`, and shared state is in `src/context/`.
+
+See [IMPLEMENTATION.md](IMPLEMENTATION.md) for the file guide. Use `npm run format` to format the code, and `npm run format:check` to check it without making changes. [Prettier](https://prettier.io/) is the development formatter.
+
 ## Available commands
 
 | Command | Action |
@@ -127,36 +133,26 @@ Then open **Projects** or **Skills**, choose **Owner sign in**, and use the edit
 ## Project structure
 
 ```text
-Jeff Portfolio V2 - Section1 BSIT3 - 1stSemPreFi - Finalize/
-├── public/portfolio/            # Portrait, project previews, and resume PDF
-├── scripts/
-│   └── update-stack.mjs         # Generates the Home language breakdown
-├── server/
-│   ├── api.mjs                  # Content, authentication, and editing endpoints
-│   ├── setup-owner.mjs          # Local password setup
-│   └── start.mjs                # Production HTTP server
-├── src/
-│   ├── components/
-│   │   ├── owner/              # Owner authentication interface
-│   │   ├── projects/           # Project cards, previews, and editor
-│   │   ├── skills/             # Skill display and editor
-│   │   ├── three/              # 3D cube, scene, and plasma shader
-│   │   ├── ui/                 # Shared dialog component
-│   │   └── home-stack.jsx      # Languages and tools section
-│   ├── data/                   # JSON content and generated language statistics
-│   ├── hooks/                  # Reusable React hooks
-│   ├── lib/                    # API helpers and project validation
-│   ├── styles/                 # Global CSS and theme tokens
-│   ├── App.jsx                 # Opening flow and application providers
-│   └── main.jsx                # React entry point
-├── tests/                      # Node.js tests
-├── index.html
-├── jsconfig.json               # Editor import-alias configuration
-├── package.json
-├── package-lock.json
-├── vite.config.js
-├── START PORTFOLIO.cmd
-└── SET OWNER PASSWORD.cmd
+src/
+├── pages/                 # Home, About, Projects, Skills, Resume, Contact
+├── components/
+│   ├── layout/            # Navigation, Hero, Footer, BackToTop
+│   ├── projects/          # Cards, previews, and project editor
+│   ├── skills/            # Skill display and editor
+│   ├── owner/             # Sign-in interface
+│   ├── three/             # Cube, camera, lights, and plasma
+│   └── ui/                # Shared dialog
+├── context/               # Shared theme and owner-session state
+├── hooks/                 # Reusable React behavior
+├── data/                  # Navigation labels and JSON content
+├── lib/                   # API and validation helpers
+├── styles/                # Colors, typography, and layout
+├── App.jsx                # Opening flow and providers
+└── main.jsx               # Starts React
+server/                    # Owner API, password setup, production server
+scripts/                   # Language statistics generator
+public/                    # Images and resume PDF
+tests/                     # Validation and API tests
 ```
 
 ## Content and authentication
@@ -241,3 +237,4 @@ The internal API routes listed above are relative to whichever server runs this 
 BSIT — Western Institute of Technology
 
 [GitHub profile](https://github.com/JeffGentapanan) · [Portfolio repository](https://github.com/JeffGentapanan/-JeffGentapanan-Portfolio-Finalize-V2)
+

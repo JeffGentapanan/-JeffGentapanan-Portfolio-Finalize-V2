@@ -2,32 +2,16 @@
   {
     "id": "languages",
     "title": "Languages & stack",
-    "items": [
-      "JavaScript",
-      "CSS",
-      "HTML5",
-      "MERN Stack",
-      "JSX"
-    ]
+    "items": ["JavaScript", "CSS", "HTML5", "MERN Stack", "JSX"]
   },
   {
     "id": "libraries",
     "title": "Libraries & services",
-    "items": [
-      "React",
-      "Font Awesome",
-      "Google Fonts",
-      "FormSubmit API",
-      "Reactbits"
-    ]
+    "items": ["React", "Font Awesome", "Google Fonts", "FormSubmit API", "Reactbits"]
   },
   {
     "id": "tools",
     "title": "Tools",
-    "items": [
-      "Vite",
-      "Git & GitHub",
-      "Figma"
-    ]
+    "items": ["Vite", "Git & GitHub", "Figma"]
   }
 ]

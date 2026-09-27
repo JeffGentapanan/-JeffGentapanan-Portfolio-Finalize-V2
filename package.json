@@ -11,7 +11,9 @@
     "preview": "node server/start.mjs",
     "test": "node --test tests/*.test.js tests/*.test.mjs",
     "start": "node server/start.mjs",
-    "owner:setup": "node server/setup-owner.mjs"
+    "owner:setup": "node server/setup-owner.mjs",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,json}\" \"server/*.mjs\" \"scripts/*.mjs\" \"tests/*.{js,mjs}\" index.html vite.config.js jsconfig.json package.json",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css,json}\" \"server/*.mjs\" \"scripts/*.mjs\" \"tests/*.{js,mjs}\" index.html vite.config.js jsconfig.json package.json"
   },
   "dependencies": {
     "@react-three/fiber": "^9.4.0",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
+    "prettier": "^3.9.9",
     "vite": "^8.0.1"
   }
 }

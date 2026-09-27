@@ -1,11 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { ThemeProvider } from './components/theme-provider';
+import { ThemeProvider } from '@/context/theme-context';
 import { OpeningPage } from './components/opening-page';
-import { OwnerProvider } from './components/owner/owner-provider';
+import { OwnerProvider } from '@/context/owner-context';
 import { Portfolio } from './components/portfolio';
 import { useMediaQuery } from './hooks/use-media-query';
 import './styles/tokens.css';
 import './styles/global.css';
+import './styles/layout-overrides.css';
 const Plasma = lazy(() => import('./components/three/plasma-background'));
 
 function Experience() {
@@ -21,12 +22,28 @@ function Experience() {
     if (id) document.getElementById(id)?.focus({ preventScroll: true });
   }, [phase]);
 
-  return <div className="experience">
-    <Suspense fallback={null}><Plasma opacity={0.36}/></Suspense>
-    {phase !== 'portfolio' && <OpeningPage leaving={phase === 'entering'} onEnter={() => setPhase('entering')}/>}
-    {phase !== 'opening' && <div className="main-reveal" inert={phase === 'entering'}><Portfolio/></div>}
-  </div>;
+  return (
+    <div className="experience">
+      <Suspense fallback={null}>
+        <Plasma opacity={0.36} />
+      </Suspense>
+      {phase !== 'portfolio' && (
+        <OpeningPage leaving={phase === 'entering'} onEnter={() => setPhase('entering')} />
+      )}
+      {phase !== 'opening' && (
+        <div className="main-reveal" inert={phase === 'entering'}>
+          <Portfolio />
+        </div>
+      )}
+    </div>
+  );
 }
-export default function App() { return <ThemeProvider><OwnerProvider><Experience/></OwnerProvider></ThemeProvider>; }
-
-import './styles/owner-refinement.css';
+export default function App() {
+  return (
+    <ThemeProvider>
+      <OwnerProvider>
+        <Experience />
+      </OwnerProvider>
+    </ThemeProvider>
+  );
+}

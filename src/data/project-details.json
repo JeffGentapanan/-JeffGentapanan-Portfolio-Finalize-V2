@@ -2,14 +2,7 @@
   "awesome-todos": {
     "description": "A full-stack task management application with a decoupled client-server architecture. Features a clean user interface and persistent data storage.",
     "github": "https://github.com/JeffGentapanan/awesometodosapp.git",
-    "stack": [
-      "React",
-      "Vite",
-      "Node.js",
-      "Express",
-      "JavaScript",
-      "HTML/CSS"
-    ]
+    "stack": ["React", "Vite", "Node.js", "Express", "JavaScript", "HTML/CSS"]
   },
   "letsgo": {
     "description": "A travel planning application that helps users discover and organize their dream destinations. Features a visually appealing interface and seamless integration with travel APIs.",
