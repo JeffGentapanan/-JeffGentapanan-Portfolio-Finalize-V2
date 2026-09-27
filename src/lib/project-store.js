@@ -17,6 +17,15 @@ export function validateProject(input) {
   if (input.tagline.length > 2000) return 'Keep the description under 2,001 characters.';
   if (input.thumbnail && (!isImageUrl(input.thumbnail) || input.thumbnail.length > 2048))
     return 'Use an HTTP/HTTPS image URL or a /portfolio/ asset path.';
+  if (input.github && (!isWebUrl(input.github) || input.github.length > 2048))
+    return 'Enter a complete HTTP/HTTPS source code URL.';
+  if (
+    input.tags !== undefined &&
+    (!Array.isArray(input.tags) ||
+      input.tags.length > 20 ||
+      input.tags.some((tag) => typeof tag !== 'string' || !tag.trim() || tag.length > 60))
+  )
+    return 'Use up to 20 tags, each with 1–60 characters.';
   return null;
 }
 export function decodeProjects(raw) {

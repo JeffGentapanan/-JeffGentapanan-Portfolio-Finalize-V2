@@ -36,3 +36,18 @@ test('accepts bundled thumbnails without allowing arbitrary paths', () => {
 test('link cards may omit descriptions and thumbnail images', () => {
   assert.equal(validateProject({ ...valid, tagline: '', thumbnail: '' }), null);
 });
+
+test('validates editable tags and source links', () => {
+  assert.equal(
+    validateProject({
+      ...valid,
+      tags: ['Figma', 'Travel Tech'],
+      github: 'https://github.com/owner/repo',
+    }),
+    null
+  );
+  for (const tags of ['Figma', [''], Array(21).fill('Design'), ['x'.repeat(61)]])
+    assert.ok(validateProject({ ...valid, tags }));
+  assert.ok(validateProject({ ...valid, github: 'javascript:alert(1)' }));
+  assert.equal(validateProject({ ...valid, tags: [], github: '' }), null);
+});

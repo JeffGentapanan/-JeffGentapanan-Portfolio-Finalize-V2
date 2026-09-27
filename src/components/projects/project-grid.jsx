@@ -5,7 +5,13 @@ import { Modal } from '@/components/ui/modal';
 import { ProjectImage } from './project-image';
 export function ProjectGrid({ projects }) {
   const [selected, setSelected] = useState(null);
-  const detail = selected ? details[selected.id] : undefined;
+  const original = selected ? details[selected.id] : undefined;
+  const detail = selected
+    ? {
+        stack: selected.tags ?? original?.stack ?? [],
+        github: selected.github ?? original?.github ?? '',
+      }
+    : null;
   return (
     <>
       <div className="project-grid">
@@ -52,12 +58,18 @@ export function ProjectGrid({ projects }) {
       </div>
       {selected && (
         <Modal title={selected.title} onClose={() => setSelected(null)}>
-          <ProjectImage
-            key={selected.thumbnail}
-            src={selected.thumbnail}
-            title={selected.title}
-            index={projects.findIndex((p) => p.id === selected.id)}
-          />
+          <div
+            className="project-detail-photo"
+            tabIndex={0}
+            aria-label="Project photo. Focus or hover to view in color."
+          >
+            <ProjectImage
+              key={selected.thumbnail}
+              src={selected.thumbnail}
+              title={selected.title}
+              index={projects.findIndex((p) => p.id === selected.id)}
+            />
+          </div>
           <p className="eyebrow">{selected.category}</p>
           <p className="modal-description">{selected.tagline}</p>
           {detail && (
@@ -74,7 +86,7 @@ export function ProjectGrid({ projects }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Source on GitHub ↗
+                  View source code ↗
                 </a>
               )}
             </>

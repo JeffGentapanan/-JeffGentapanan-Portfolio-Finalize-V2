@@ -26,7 +26,14 @@ skills (id, title, items text[], position). Visitors have SELECT access. Each ed
 save modifies one row. New visits and page reloads fetch the latest saved data.
 If the service is unavailable, bundled JSON is displayed with a status message.
 Image URLs can point to external images or existing public/portfolio assets.
-This editor does not upload image files.
+The editor also accepts image files. Before deploying this update, run
+supabase/project-editor.sql in the Supabase SQL Editor. It adds editable tags and
+source links, preserves the original projects' details, and creates the public
+project-images bucket with owner-only uploads (5 MB maximum, PNG/JPG/WebP/AVIF).
+Images upload on Save; their public URL is stored in the project record.
+Deleting a project or replacing its thumbnail keeps previously saved images,
+since another project may reference them. Remove unused images through Storage.
+Storage setup reference: https://supabase.com/docs/guides/storage/security/access-control
 
 The password from SET OWNER PASSWORD.cmd is not the Supabase password.
 Use the owner credentials created in the Supabase dashboard. Password recovery

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { uploadProjectImage, discardProjectUpload } from '@/lib/project-upload';
 import seed from '@/data/projects.json';
 import { MAX_PROJECTS, validateProject } from '@/lib/project-store';
 import { loadContent, saveContentRow, deleteContentRow } from '@/lib/content-store';
@@ -45,10 +46,31 @@ export function useProjects() {
     }
   }
 
-  async function save(input, id) {
+  async function save(input, id, imageFile) {
     const cleaned = Object.fromEntries(
-      Object.entries(input).map(([key, value]) => [key, value.trim()])
+      ['title', 'url', 'category', 'tagline', 'thumbnail', 'github'].map((key) => [
+        key,
+        (input[key] || '').trim(),
+      ])
     );
+    cleaned.tags = [
+      ...new Set(
+        (input.tags || '')
+          .split(/[,\n]/)
+          .map((tag) => tag.trim())
+          .filter(Boolean)
+      ),
+    ];
+    const previousThumbnail = projects.find((project) => project.id === id)?.thumbnail;
+    if (
+      !imageFile &&
+      cleaned.thumbnail.startsWith('/portfolio/') &&
+      cleaned.thumbnail !== previousThumbnail
+    ) {
+      setError('Choose an image from your computer or paste a complete HTTPS image URL.');
+      return false;
+    }
+    if (imageFile) cleaned.thumbnail = '';
     const validation = validateProject(cleaned);
     if (validation) {
       setError(validation);
@@ -62,11 +84,36 @@ export function useProjects() {
       const existing = projects.find((project) => project.id === id);
       const position =
         existing?.position ?? Math.max(-1, ...projects.map((p) => p.position ?? 0)) + 1;
-      const saved = await saveContentRow(
-        'projects',
-        { ...cleaned, id: id || crypto.randomUUID(), position },
-        Boolean(id)
-      );
+      let upload;
+      let saved;
+      try {
+        if (imageFile) upload = await uploadProjectImage(imageFile);
+        saved = await saveContentRow(
+          'projects',
+          {
+            ...cleaned,
+            thumbnail: upload?.url || cleaned.thumbnail,
+            id: id || crypto.randomUUID(),
+            position,
+          },
+          Boolean(id)
+        );
+      } catch (error) {
+        if (upload) {
+          try {
+            await discardProjectUpload(upload.path);
+          } catch {
+            throw new Error(
+              error.message + ' The unused image could not be removed; check Supabase Storage.'
+            );
+          }
+        }
+        if (error.code === 'PGRST204')
+          throw new Error(
+            'Run supabase/project-editor.sql in the Supabase SQL Editor to enable tags and source links.'
+          );
+        throw error;
+      }
       setProjects((current) =>
         id ? current.map((project) => (project.id === id ? saved : project)) : [...current, saved]
       );

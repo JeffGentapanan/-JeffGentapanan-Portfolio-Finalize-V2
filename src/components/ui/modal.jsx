@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useId, useRef } from 'react';
 /** Native dialog provides focus containment, Escape, and an inert background. */
-export function Modal({ title, onClose, children }) {
+export function Modal({ title, onClose, children, className = '' }) {
   const ref = useRef(null);
   const heading = useId();
   useEffect(() => {
@@ -19,7 +19,7 @@ export function Modal({ title, onClose, children }) {
   return (
     <dialog
       ref={ref}
-      className="modal"
+      className={`modal ${className}`}
       aria-labelledby={heading}
       onCancel={onClose}
       onClick={(e) => {

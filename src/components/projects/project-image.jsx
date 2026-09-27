@@ -3,7 +3,7 @@ import { useState } from 'react';
 export function ProjectImage({ src, title, index }) {
   const [failed, setFailed] = useState(false);
   return (
-    <div className={`project-image image-${index % 3}`}>
+    <div className={`project-image image-${index % 3} ${src && !failed ? 'has-image' : ''}`}>
       {src && !failed ? (
         <img
           src={src}

@@ -1,8 +1,8 @@
 import { requireSupabase } from './supabase';
 
-// Explicit columns keep database-only fields out of editor forms.
+// Projects use * so existing content still loads before the optional-field migration.
 const columns = {
-  projects: 'id,title,url,category,tagline,thumbnail,position',
+  projects: '*',
   skills: 'id,title,items,position',
 };
 
