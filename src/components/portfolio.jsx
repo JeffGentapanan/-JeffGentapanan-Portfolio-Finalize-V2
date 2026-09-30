@@ -3,7 +3,7 @@ import { useOwner } from '@/context/owner-context';
 import { useProjects } from '@/hooks/use-projects';
 import { routes } from '@/data/navigation';
 import { Navigation } from './layout/Navigation';
-import { Hero } from './layout/Hero';
+import { User } from './layout/User';
 import { Footer } from './layout/Footer';
 import { BackToTop } from './layout/BackToTop';
 import { ProjectManager } from './projects/project-manager';
@@ -73,7 +73,7 @@ export function Portfolio() {
       </a>
       <Navigation view={view} onChange={changePage} />
       <main id="main" tabIndex={-1}>
-        <Hero view={view} />
+        <User view={view} />
         <div className="view-body" key={view} id="section-content">
           {renderPage()}
         </div>

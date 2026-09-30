@@ -14,7 +14,7 @@
 src/
 ├── pages/                 # Home, About, Projects, Skills, Resume, Contact
 ├── components/
-│   ├── layout/            # Navigation, Hero, Footer, BackToTop
+│   ├── layout/            # Navigation, User, Footer, BackToTop
 │   ├── projects/          # Cards, previews, and project editor
 │   ├── skills/            # Skill display and editor
 │   ├── owner/             # Sign-in interface
@@ -46,7 +46,7 @@ tests/                     # Validation and API tests
 | Contact details and form | src/pages/ContactPage.jsx |
 | Navigation order | src/components/layout/Navigation.jsx |
 | Page headings and route aliases | src/data/navigation.js |
-| Shared hero | src/components/layout/Hero.jsx |
+| Shared user | src/components/layout/User.jsx |
 | Footer links | src/components/layout/Footer.jsx |
 | Theme state | src/context/theme-context.jsx |
 | Login state | src/context/owner-context.jsx |

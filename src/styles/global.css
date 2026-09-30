@@ -213,14 +213,14 @@ i {
   max-width: 1800px;
   margin: auto;
 }
-.hero {
+.user {
   margin: 0 var(--gutter);
   height: calc(100svh - 98px);
   min-height: 740px;
   position: relative;
   isolation: isolate;
 }
-.hero-title {
+.user-title {
   position: absolute;
   top: 26px;
   left: 0;
@@ -229,7 +229,7 @@ i {
   pointer-events: none;
   z-index: 2;
 }
-.hero h1 {
+.user h1 {
   font-size: clamp(52px, 5.8vw, 96px);
   font-weight: 800;
   margin-top: 14px;
@@ -263,7 +263,7 @@ i {
 .scene-fallback p {
   font-size: 16px;
 }
-.hero-foot {
+.user-foot {
   position: absolute;
   left: 0;
   right: 0;
@@ -274,7 +274,7 @@ i {
   z-index: 2;
   pointer-events: none;
 }
-.hero-foot p {
+.user-foot p {
   font-size: 18px;
   line-height: 1.65;
   max-width: 520px;
@@ -735,11 +735,11 @@ form > .button {
   .header .theme-toggle {
     margin-left: auto;
   }
-  .hero {
+  .user {
     height: calc(100svh - 140px);
     min-height: 730px;
   }
-  .hero h1 {
+  .user h1 {
     font-size: clamp(48px, 7vw, 76px);
   }
   .header nav a {
@@ -793,29 +793,29 @@ form > .button {
     font-size: 13px;
     flex-shrink: 0;
   }
-  .hero {
+  .user {
     min-height: 690px;
     height: calc(100svh - 138px);
     margin: 0 var(--gutter);
   }
-  .hero-title {
+  .user-title {
     top: 24px;
   }
-  .hero h1 {
+  .user h1 {
     font-size: clamp(36px, 8.4vw, 50px);
     line-height: 1.08;
   }
-  .hero .eyebrow {
+  .user .eyebrow {
     font-size: 13px;
   }
   .scene {
     width: calc(100% + 20px);
     height: 350px;
   }
-  .hero-foot {
+  .user-foot {
     bottom: 22px;
   }
-  .hero-foot p {
+  .user-foot p {
     font-size: 16px;
     max-width: 310px;
     line-height: 1.65;
@@ -915,7 +915,7 @@ main:focus {
   outline: none;
 }
 @media (max-width: 600px) {
-  .hero-foot {
+  .user-foot {
     bottom: 76px;
   }
 }

@@ -2,12 +2,12 @@ import { lazy, Suspense } from 'react';
 import { titles } from '@/data/navigation';
 const Scene = lazy(() => import('@/components/three/scene'));
 
-export function Hero({ view }) {
+export function User({ view }) {
   return (
-    <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-title" key={view}>
+    <section className="user" aria-labelledby="user-title">
+      <div className="user-title" key={view}>
         <p className="eyebrow">Jeff A. Gentapanan</p>
-        <h1 id="hero-title">
+        <h1 id="user-title">
           {titles[view][0]}
           <br />
           <em>{titles[view][1]}</em>
@@ -22,9 +22,9 @@ export function Hero({ view }) {
       >
         <Scene view={view} />
       </Suspense>
-      <div className="hero-foot">
+      <div className="user-foot">
         <p>
-          I’m a 2nd-year IT student building my skills in front-end development and design, one
+          I’m a 3rd-year IT student building my skills in front-end development and design, one
           thoughtful project at a time.
         </p>
       </div>

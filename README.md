@@ -1,4 +1,8 @@
- > **Online editing now uses Supabase.** See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel settings and owner sign-in. The local Node API instructions below describe the legacy backend.
+[![Jeff Portfolio — dark mode preview](dark-mode-check.png)](https://jeff-gentapanan-portfolio-finalize-phi.vercel.app/)
+
+[Visit the live portfolio](https://jeff-gentapanan-portfolio-finalize-phi.vercel.app/)
+
+> **Online editing now uses Supabase.** See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel settings and owner sign-in. The local Node API instructions below describe the legacy backend.
 
 # Jeff Gentapanan — Portfolio V2
 
@@ -138,7 +142,7 @@ See [IMPLEMENTATION.md](IMPLEMENTATION.md) for the file guide. Use `npm run form
 src/
 ├── pages/                 # Home, About, Projects, Skills, Resume, Contact
 ├── components/
-│   ├── layout/            # Navigation, Hero, Footer, BackToTop
+│   ├── layout/            # Navigation, User, Footer, BackToTop
 │   ├── projects/          # Cards, previews, and project editor
 │   ├── skills/            # Skill display and editor
 │   ├── owner/             # Sign-in interface
