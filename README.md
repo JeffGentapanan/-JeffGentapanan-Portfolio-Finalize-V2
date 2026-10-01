@@ -102,21 +102,23 @@ npm run dev
 
 Open the **Local** address printed by Vite, usually `http://127.0.0.1:5173/`. If that port is occupied, use the different address printed in the terminal. Keep the terminal open while using the site.
 
-### Windows shortcut
+### Windows terminal
 
-Double-click **`START PORTFOLIO.cmd`**. It checks for Node.js, installs dependencies if needed, and starts the development server.
-
-### Owner setup
-
-Owner setup is optional for viewing the website and required for editing its content.
+Open Command Prompt or PowerShell in the project folder and run:
 
 ```sh
-npm run owner:setup
+npm run dev
 ```
 
-Alternatively, double-click **`SET OWNER PASSWORD.cmd`**. Choose and confirm a password of at least 12 characters; input is hidden. No default password is supplied.
+On a fresh checkout, run `npm ci` first. Press **Ctrl + C** to stop the server.
+The optional Windows startup shortcut has been removed.
 
-Then open **Projects** or **Skills**, choose **Owner sign in**, and use the editing controls. To reset the password, run the setup command again and restart the server.
+### Owner sign-in
+
+Set the Supabase connection variables in `.env.local` as described in
+[DEPLOYMENT.md](DEPLOYMENT.md). Then open **Projects** or **Skills**, choose
+**Owner sign in**, and use your Supabase owner email and password.
+The legacy `owner:setup` command is not used by the current website login.
 
 ## Reading and editing the code
 

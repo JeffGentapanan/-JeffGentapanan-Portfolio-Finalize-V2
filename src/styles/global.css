@@ -431,6 +431,15 @@ i {
   object-fit: cover;
   filter: grayscale(1);
   display: block;
+  transition: filter 0.3s ease;
+}
+.portrait img:hover {
+  filter: grayscale(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait img {
+    transition: none;
+  }
 }
 .portrait figcaption {
   display: flex;
