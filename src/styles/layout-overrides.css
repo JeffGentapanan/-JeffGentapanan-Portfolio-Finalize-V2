@@ -454,3 +454,167 @@ body,
 .project-editor-fields .project-image img {
   filter: none;
 }
+
+/* Compact navigation: desktop links become a disclosure menu on phones/tablets. */
+.menu-toggle {
+  display: none;
+}
+@media (max-width: 900px) {
+  .header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    padding: 10px 20px;
+    min-height: 72px;
+  }
+  .header .brand-logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .header .brand-logo img {
+    width: 48px;
+    height: 48px;
+  }
+  .header .theme-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    font-size: 13px;
+    min-height: 44px;
+  }
+  .header .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    grid-column: 3;
+    grid-row: 1;
+    min-height: 44px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 650;
+  }
+  .menu-toggle .menu-label {
+    font-size: inherit;
+    line-height: 1;
+  }
+  .header nav {
+    display: none;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    overflow-y: auto;
+    max-height: calc(100svh - 100px);
+  }
+  .header nav.navigation-open {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3px;
+    animation: menu-appear 180ms ease-out;
+  }
+  .header nav a {
+    justify-content: flex-start;
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 16px;
+  }
+  .header nav a[aria-current='page'] {
+    background: var(--surface);
+  }
+  .user {
+    min-height: calc(100svh - 72px);
+  }
+}
+@keyframes menu-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 600px) {
+  .header {
+    padding-inline: 12px;
+    gap: 8px;
+  }
+  .user {
+    min-height: 0;
+  }
+  .section-heading {
+    flex-wrap: wrap;
+  }
+  .project-info {
+    gap: 12px;
+  }
+  .project-info > div,
+  .contact-columns > *,
+  .about-columns > * {
+    min-width: 0;
+  }
+  .contact-email {
+    overflow-wrap: anywhere;
+  }
+  .modal input,
+  .modal textarea,
+  .jeff-contact-form input,
+  .jeff-contact-form textarea {
+    font-size: 16px;
+    max-width: 100%;
+  }
+  .manager-row {
+    flex-wrap: wrap;
+  }
+  .manager-row strong {
+    overflow-wrap: anywhere;
+  }
+  .modal {
+    max-height: calc(100svh - 24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header nav.navigation-open {
+    animation: none;
+  }
+}
+
+/* Hide scrollbar tracks only; wheel, touch and keyboard scrolling stay enabled. */
+html,
+body,
+.modal,
+.header nav,
+textarea {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.modal::-webkit-scrollbar,
+.header nav::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.menu-icon {
+  display: block;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 900px) {
+  .header .menu-toggle {
+    gap: 8px;
+    line-height: 1;
+    min-width: 86px;
+    white-space: nowrap;
+  }
+  .menu-toggle .menu-label {
+    display: block;
+    line-height: 20px;
+  }
+}

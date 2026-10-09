@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { useOwner } from '@/context/owner-context';
 import { useProjects } from '@/hooks/use-projects';
 import { routes } from '@/data/navigation';
@@ -19,6 +20,9 @@ export function Portfolio() {
   const store = useProjects();
   const [view, setView] = useState(() => routes[window.location.hash.slice(1)] || 'index');
   const [managerOpen, setManagerOpen] = useState(false);
+
+  const content = useRef(null);
+  useScrollReveal(content, view);
 
   function changePage(nextPage) {
     setManagerOpen(false);
@@ -72,7 +76,7 @@ export function Portfolio() {
         Skip to content
       </a>
       <Navigation view={view} onChange={changePage} />
-      <main id="main" tabIndex={-1}>
+      <main ref={content} id="main" tabIndex={-1}>
         <User view={view} />
         <div className="view-body" key={view} id="section-content">
           {renderPage()}

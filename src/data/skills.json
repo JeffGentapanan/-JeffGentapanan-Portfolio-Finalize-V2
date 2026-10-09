@@ -7,7 +7,21 @@
   {
     "id": "libraries",
     "title": "Libraries & services",
-    "items": ["React", "Font Awesome", "Google Fonts", "FormSubmit API", "Reactbits"]
+    "items": [
+      "React",
+      "Font Awesome",
+      "Google Fonts",
+      "FormSubmit API",
+      "Reactbits",
+      "React DOM",
+      "Three.js",
+      "React Three Fiber",
+      "Supabase JavaScript SDK",
+      "Supabase Auth",
+      "Supabase Database (PostgreSQL)",
+      "Supabase Storage",
+      "Vercel"
+    ]
   },
   {
     "id": "tools",
