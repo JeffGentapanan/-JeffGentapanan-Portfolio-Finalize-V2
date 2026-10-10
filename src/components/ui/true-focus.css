@@ -1,0 +1,82 @@
+.focus-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em;
+  max-width: 100%;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-transform: none;
+  user-select: none;
+}
+.focus-word {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+  cursor: default;
+  will-change: filter;
+}
+.focus-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: block;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: 1px solid transparent;
+}
+.focus-corner {
+  position: absolute;
+  width: 0.42em;
+  height: 0.42em;
+  border: 1.5px solid var(--border-color, currentColor);
+  border-radius: 1px;
+  filter: drop-shadow(0 0 3px var(--glow-color, transparent));
+}
+.focus-corner--top-left {
+  top: -3px;
+  left: -3px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.focus-corner--top-right {
+  top: -3px;
+  right: -3px;
+  border-bottom: 0;
+  border-left: 0;
+}
+.focus-corner--bottom-left {
+  bottom: -3px;
+  left: -3px;
+  border-top: 0;
+  border-right: 0;
+}
+.focus-corner--bottom-right {
+  right: -3px;
+  bottom: -3px;
+  border-top: 0;
+  border-left: 0;
+}
+.focus-name {
+  line-height: 1.35;
+}
+@media (max-width: 540px) {
+  .focus-container {
+    gap: 0.14em;
+  }
+  .focus-corner {
+    width: 0.34em;
+    height: 0.34em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .focus-word {
+    will-change: auto;
+  }
+}

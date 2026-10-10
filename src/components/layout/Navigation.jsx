@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { RubberSegment } from '@/components/ui/RubberSegment';
 const links = [
   { view: 'index', label: 'Home', hash: 'home' },
   { view: 'studio', label: 'About', hash: 'about' },
@@ -8,6 +9,11 @@ const links = [
   { view: 'resume', label: 'Resume', hash: 'resume' },
   { view: 'contact', label: 'Contact', hash: 'contact' },
 ];
+const navigationItems = links.map((link) => ({
+  value: link.view,
+  label: link.label,
+  href: `#${link.hash}`,
+}));
 export function Navigation({ view, onChange }) {
   const [open, setOpen] = useState(false);
   const header = useRef(null);
@@ -82,16 +88,12 @@ export function Navigation({ view, onChange }) {
         className={open ? 'navigation-open' : ''}
         aria-label="Primary navigation"
       >
-        {links.map((link) => (
-          <a
-            key={link.view}
-            href={'#' + link.hash}
-            aria-current={view === link.view ? 'page' : undefined}
-            onClick={() => navigate(link.view)}
-          >
-            {link.label}
-          </a>
-        ))}
+        <RubberSegment
+          items={navigationItems}
+          value={view}
+          onNavigate={navigate}
+          aria-label="Primary navigation"
+        />
       </nav>
       <ThemeToggle />
     </header>

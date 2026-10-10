@@ -1,0 +1,172 @@
+.rubber-segment {
+  --rs-track: var(--surface);
+  --rs-thumb: var(--foreground);
+  --rs-ink: var(--foreground);
+  --rs-ink-active: var(--background);
+  --rs-radius: 9px;
+  --rs-inset: 2px;
+
+  position: relative;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  padding: var(--rs-inset);
+  border-radius: var(--rs-radius);
+  background: var(--rs-track);
+  font-family: inherit;
+  touch-action: pan-y;
+  user-select: none;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rubber-segment__item {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 clamp(10px, 1.2vw, 18px);
+  border: 0;
+  border-radius: calc(var(--rs-radius) - var(--rs-inset));
+  background: transparent;
+  color: var(--rs-ink);
+  opacity: 0.78;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 160ms ease;
+}
+.rubber-segment__item:active {
+  transform: scale(0.985);
+}
+
+.rubber-segment__item[aria-current='page'] {
+  color: transparent;
+  opacity: 1;
+  text-decoration: none;
+  text-decoration-line: none;
+}
+
+.header nav .rubber-segment__item {
+  font-weight: 700;
+  border-radius: 0;
+}
+
+/* Let desktop links sit cleanly in the header; only the active link gets a fill. */
+@media (min-width: 901px) {
+  .header nav .rubber-segment {
+    padding: 0;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.header nav .rubber-segment__item[aria-current='page'] {
+  color: transparent;
+  text-decoration: none;
+  text-decoration-line: none;
+  text-underline-offset: 0;
+}
+
+.header nav .rubber-segment__thumb {
+  display: flex;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.header nav .rubber-segment__item[aria-current='page']:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
+.rubber-segment__item:focus-visible {
+  z-index: 2;
+  outline: 2px solid var(--rs-ink);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rubber-segment__item:not([aria-current='page']):hover {
+    opacity: 1;
+  }
+}
+
+.rubber-segment__thumb {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: calc(var(--rs-radius) - var(--rs-inset));
+  background: var(--rs-thumb);
+  color: var(--rs-ink-active);
+  pointer-events: none;
+  will-change: transform, width, height;
+}
+
+.rubber-segment__thumb-label {
+  display: block;
+  overflow: hidden;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .rubber-segment {
+    display: grid;
+    width: 100%;
+    grid-auto-flow: row;
+    grid-auto-rows: 44px;
+  }
+
+  .rubber-segment__item {
+    min-width: 0;
+    min-height: 44px;
+    justify-content: flex-start;
+    padding-inline: 14px;
+    font-size: 16px;
+  }
+
+  .rubber-segment__thumb-label {
+    font-size: 16px;
+  }
+
+  /* The mobile menu is a vertical list, so keep its selected label on the link. */
+  .rubber-segment__thumb {
+    display: none;
+  }
+
+  .header nav .rubber-segment .rubber-segment__item[aria-current='page'] {
+    color: var(--rs-ink);
+    opacity: 1;
+    background: var(--background);
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rubber-segment__item {
+    transition: none;
+  }
+}

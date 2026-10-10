@@ -618,3 +618,27 @@ textarea::-webkit-scrollbar {
     line-height: 20px;
   }
 }
+
+/* Center the desktop navigation on the viewport, independent of side controls. */
+@media (min-width: 901px) {
+  .header {
+    position: sticky;
+  }
+  .header nav {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    margin: 0;
+    transform: translate(-50%, -50%);
+  }
+}
+@media (max-width: 900px) {
+  .header nav {
+    position: static;
+    top: auto;
+    left: auto;
+    width: 100%;
+    transform: none;
+  }
+}

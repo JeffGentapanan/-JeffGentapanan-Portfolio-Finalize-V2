@@ -4,6 +4,29 @@ import { loadContent, saveContentRow, deleteContentRow } from '@/lib/content-sto
 import { OwnerAccess } from '@/components/owner/owner-access';
 import { useOwner } from '@/context/owner-context';
 import { Modal } from '@/components/ui/modal';
+import { SkillIcon } from './skill-icon';
+
+function tiltSkillCard(event) {
+  if (
+    event.pointerType !== 'mouse' ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    return;
+  }
+
+  const card = event.currentTarget;
+  const bounds = card.getBoundingClientRect();
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+  card.style.setProperty('--skill-tilt-x', `${(-y * 4).toFixed(2)}deg`);
+  card.style.setProperty('--skill-tilt-y', `${(x * 4).toFixed(2)}deg`);
+}
+
+function resetSkillCardTilt(event) {
+  event.currentTarget.style.setProperty('--skill-tilt-x', '0deg');
+  event.currentTarget.style.setProperty('--skill-tilt-y', '0deg');
+}
+
 export function SkillsSection() {
   const [groups, setGroups] = useState(seed),
     [editing, setEditing] = useState(false),
@@ -92,11 +115,18 @@ export function SkillsSection() {
       </p>
       <div className="skill-columns">
         {groups.map((group) => (
-          <article key={group.id}>
+          <article
+            key={group.id}
+            onPointerMove={tiltSkillCard}
+            onPointerLeave={resetSkillCardTilt}
+          >
             <h3>{group.title}</h3>
             <ul>
               {group.items.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>
+                  <SkillIcon name={item} />
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
           </article>
