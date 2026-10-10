@@ -32,10 +32,25 @@ const rows = Object.entries(totals).map(([name, bytes]) => ({
   percentage: Math.floor((bytes / sum) * 100),
   remainder: ((bytes / sum) * 100) % 1,
 }));
+// Keep tiny but present file types visible in the summary instead of showing 0%.
+for (const row of rows) {
+  if (row.percentage === 0) row.percentage = 1;
+}
 // Largest-remainder rounding keeps the displayed percentages at exactly 100%.
 let remaining = 100 - rows.reduce((n, row) => n + row.percentage, 0);
-for (const row of [...rows].sort((a, b) => b.remainder - a.remainder)) {
-  if (remaining-- > 0) row.percentage++;
+if (remaining > 0) {
+  for (const row of [...rows].sort((a, b) => b.remainder - a.remainder)) {
+    if (remaining <= 0) break;
+    row.percentage++;
+    remaining--;
+  }
+} else if (remaining < 0) {
+  for (const row of [...rows].sort((a, b) => b.remainder - a.remainder)) {
+    if (remaining >= 0) break;
+    if (row.percentage <= 1) continue;
+    row.percentage--;
+    remaining++;
+  }
 }
 const data = rows
   .sort((a, b) => b.percentage - a.percentage)

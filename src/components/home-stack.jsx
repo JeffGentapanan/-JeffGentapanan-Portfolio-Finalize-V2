@@ -1,4 +1,5 @@
 import languages from '@/data/stack.json';
+import { SkillIcon } from '@/components/skills/skill-icon';
 import '@/styles/home-stack.css';
 const groups = [
   { title: 'Frameworks & libraries', items: ['React', 'Three.js', 'React Three Fiber'] },
@@ -20,7 +21,10 @@ export function HomeStack() {
             {languages.map((language) => (
               <li key={language.name}>
                 <div className="language-label">
-                  <span>{language.name}</span>
+                  <span className="language-name">
+                    <SkillIcon name={language.name} />
+                    <span>{language.name}</span>
+                  </span>
                   <strong>{language.percentage}%</strong>
                 </div>
                 <div className="language-track" aria-hidden="true">
@@ -40,7 +44,10 @@ export function HomeStack() {
               <h3>{group.title}</h3>
               <ul>
                 {group.items.map((item) => (
-                  <li key={item}>{item}</li>
+                    <li key={item}>
+                      <SkillIcon name={item} />
+                      <span>{item}</span>
+                    </li>
                 ))}
               </ul>
             </div>

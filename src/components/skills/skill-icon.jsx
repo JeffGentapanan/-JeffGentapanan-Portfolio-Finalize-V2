@@ -24,6 +24,8 @@ const iconSlugs = {
   'supabase storage': 'supabase',
   vercel: 'vercel',
   vite: 'vite',
+  'node.js': 'nodedotjs',
+  npm: 'npm',
   'git & github': 'github',
   git: 'git',
   github: 'github',
